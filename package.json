@@ -1,0 +1,18 @@
+{
+  "name": "crud-ps-salvus",
+  "version": "1.0.0",
+  "description": "crud em nodejs para processo seletivo da Salvus",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.21.5",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
