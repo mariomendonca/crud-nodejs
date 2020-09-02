@@ -1,19 +1,12 @@
 const express = require('express')
 
-const connection = require('./database/connection')
+const PatientsController = require('./controllers/PatientsController')
 
 const routes = express.Router()
 
-routes.post('/patients', async (req, res) => {
-  const {name, email, cpf} = req.body
-
-  await connection('patients').insert({
-    name, 
-    email, 
-    cpf
-  })
-
-  return res.json({ cpf })
-})
+routes.get('/patients', PatientsController.index)
+routes.get('/patients/:id', PatientsController.getOne)
+routes.post('/patients', PatientsController.create)
+routes.delete('/patients/:id', PatientsController.delete)
 
 module.exports = routes
