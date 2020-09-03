@@ -1,4 +1,5 @@
 const connection = require('../database/connection')
+const { update } = require('../database/connection')
 
 module.exports = {
   async create(req, res) {
@@ -37,6 +38,22 @@ module.exports = {
       .select('*')
 
     return res.json(patient)
+  },
+
+  async update(req, res) {
+    const { id } = req.params
+
+    const {name, email, cpf} = req.body
+
+    await connection('patients')
+      .where('id', id)
+      .update({
+      name, 
+      email, 
+      cpf
+    })
+
+    return res.json({ cpf })
   }
 
 }
