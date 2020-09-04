@@ -29,17 +29,28 @@ module.exports = {
 
   async delete(req, res) {
     const { id } = req.params
+    const patientExist = await connection('patients').where('id', id).first()
+
+    if (!patientExist) {
+      return res.status(400).json({erro: 'Paciente não encontrado'})
+    } else {
 
     await connection('patients')
       .where('id', id)
       .delete()
     
-    return res.status(204).send('Paciente deletado com sucesso')
+      return res.status(204).send()
+    }
   },
 
   async getOne(req, res) {
     const { id } = req.params
-    
+    const patientExist = await connection('patients').where('id', id).first()
+
+    if (!patientExist) {
+      return res.status(400).json({erro: 'Paciente não encontrado'})
+    }
+
     const patient = await connection('patients')
       .where('id', id)
       .select('*')
@@ -49,17 +60,29 @@ module.exports = {
 
   async update(req, res) {
     const { id } = req.params
-
     const {name, email, cpf} = req.body
+    const patientExist = await connection('patients').where('id', id).first()
+    const emailAlreadyExists = await connection('patients').where('email', email).first()
+    const cpfAlreadyExists = await connection('patients').where('cpf', cpf).first()
 
-    await connection('patients')
-      .where('id', id)
-      .update({
-      name, 
-      email, 
-      cpf
-    })
 
-    return res.status(200).json({ cpf })
+    if (!patientExist) {
+      return res.status(400).json({erro: 'Paciente não encontrado'})
+    }
+    
+    if (!emailAlreadyExists && !cpfAlreadyExists) {
+      await connection('patients')
+        .where('id', id)
+        .update({
+        name, 
+        email, 
+        cpf
+      })
+
+      return res.status(200).json({ cpf })
+    } else {
+      // return res.status(400).json({erro: 'E-mail ou cpf ja cadastrado'})
+      return console.log(emailAlreadyExists, cpfAlreadyExists)
+    }
   }
 }
