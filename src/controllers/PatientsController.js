@@ -1,5 +1,4 @@
 const connection = require('../database/connection')
-const { update } = require('../database/connection')
 
 module.exports = {
   async create(req, res) {
@@ -62,27 +61,20 @@ module.exports = {
     const { id } = req.params
     const {name, email, cpf} = req.body
     const patientExist = await connection('patients').where('id', id).first()
-    const emailAlreadyExists = await connection('patients').where('email', email).first()
-    const cpfAlreadyExists = await connection('patients').where('cpf', cpf).first()
-
 
     if (!patientExist) {
       return res.status(400).json({erro: 'Paciente não encontrado'})
     }
-    
-    if (!emailAlreadyExists && !cpfAlreadyExists) {
-      await connection('patients')
-        .where('id', id)
-        .update({
-        name, 
-        email, 
-        cpf
-      })
+
+
+    await connection('patients')
+      .where('id', id)
+      .update({
+      name, 
+      email, 
+      cpf
+    })
 
       return res.status(200).json({ cpf })
-    } else {
-      // return res.status(400).json({erro: 'E-mail ou cpf ja cadastrado'})
-      return console.log(emailAlreadyExists, cpfAlreadyExists)
-    }
   }
 }
