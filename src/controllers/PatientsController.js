@@ -5,19 +5,26 @@ module.exports = {
   async create(req, res) {
     const {name, email, cpf} = req.body
 
-    await connection('patients').insert({
-      name, 
-      email, 
-      cpf
-    })
+    const emailAlreadyExists = await connection('patients').where('email', email).first()
+    const cpfAlreadyExists = await connection('patients').where('cpf', cpf).first()
+    
+    if (!emailAlreadyExists && !cpfAlreadyExists) {
+      await connection('patients').insert({
+        name, 
+        email, 
+        cpf
+      })
 
-    return res.json({ cpf })
+      return res.status(201).json({ cpf }) 
+    } else {
+      return res.status(400).json({erro: 'E-mail ou cpf ja cadastrado'})
+    }
   }, 
 
   async index(req, res) {
     const patients = await connection('patients').select('*')
 
-    return res.json(patients)
+    return res.status(200).json(patients)
   },
 
   async delete(req, res) {
@@ -27,7 +34,7 @@ module.exports = {
       .where('id', id)
       .delete()
     
-    return res.send('Paciente deletado com sucesso')
+    return res.status(204).send('Paciente deletado com sucesso')
   },
 
   async getOne(req, res) {
@@ -37,7 +44,7 @@ module.exports = {
       .where('id', id)
       .select('*')
 
-    return res.json(patient)
+    return res.status(200).json(patient)
   },
 
   async update(req, res) {
@@ -53,7 +60,6 @@ module.exports = {
       cpf
     })
 
-    return res.json({ cpf })
+    return res.status(200).json({ cpf })
   }
-
 }
