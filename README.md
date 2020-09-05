@@ -23,11 +23,13 @@
 
 - Rota de criação de pacientes através de um json
 - Caso o E-mail ou cpf ja esteja cadastrado em outro paciente, retorna uma mensagem de erro
+- Caso o cpf nao tenha 11 dígitos, retorna uma mensagem de erro 
 
 *Rota PUT api/patients/:id*
 
 - Rota de atualização de pacientes através de um id recebido na url e envio de json com novos dados
 - Caso o paciente não exista, retorna mensagem de erro
+- Caso o cpf nao tenha 11 dígitos, retorna uma mensagem de erro 
 
 *Rota DELETE api/patients/:id* 
 

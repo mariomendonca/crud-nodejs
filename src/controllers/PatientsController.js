@@ -6,8 +6,8 @@ module.exports = {
 
     const emailAlreadyExists = await connection('patients').where('email', email).first()
     const cpfAlreadyExists = await connection('patients').where('cpf', cpf).first()
-    
-    if (!emailAlreadyExists && !cpfAlreadyExists) {
+
+    if (!emailAlreadyExists && !cpfAlreadyExists && cpf.length === 11) {
       await connection('patients').insert({
         name, 
         email, 
@@ -16,7 +16,7 @@ module.exports = {
 
       return res.status(201).json({ cpf }) 
     } else {
-      return res.status(400).json({erro: 'E-mail ou cpf ja cadastrado'})
+      return res.status(400).json({erro: 'E-mail ou cpf inválido'})
     }
   }, 
 
@@ -66,15 +66,18 @@ module.exports = {
       return res.status(400).json({erro: 'Paciente não encontrado'})
     }
 
-
-    await connection('patients')
-      .where('id', id)
-      .update({
-      name, 
-      email, 
-      cpf
-    })
-
+    if (cpf.length === 11) {
+      await connection('patients')
+        .where('id', id)
+        .update({
+        name, 
+        email, 
+        cpf
+      })
+     
       return res.status(200).json({ cpf })
+    } else {
+      return res.status(400).json({ erro: 'cpf inválido'})
+    }
   }
 }
