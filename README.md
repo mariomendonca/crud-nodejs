@@ -6,7 +6,7 @@
 *Como executar o projeto*
 - ter nodejs instalado
 - no terminal dar comando <b>npm install</b> ou <b>yarn install</b> para instalar as dependências
-- depois dar comando <b>npx knex migrate:latest</b> ou yarn knex migrate:latest</b> para criar as tabelas no banco de dados
+- depois dar comando <b>npx knex migrate:latest</b> ou <b>yarn knex migrate:latest</b> para criar as tabelas no banco de dados
 
 <h4>Rotas</h4>
 
