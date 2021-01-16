@@ -1,10 +1,8 @@
-<h2>Teste prático de estágio na Salvus.</h2>
-
 *Crud desenvolvido em nodejs* 
 - Neste projeto utilizei além do nodejs, usei o Express para criar a API, Knex.js como query builder e  sqlite3 no banco de dados.
 
 *Como executar o projeto*
-- ter nodejs instalado
+- ter node instalado
 - no terminal dar comando <b>npm install</b> ou <b>yarn install</b> para instalar as dependências
 - depois dar comando <b>npx knex migrate:latest</b> ou <b>yarn knex migrate:latest</b> para criar as tabelas no banco de dados
 
